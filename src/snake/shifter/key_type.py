@@ -4,8 +4,6 @@ from collections import namedtuple
 from typing import Any
 from typing import Callable
 from typing import cast
-from typing import Dict
-from typing import Tuple
 from typing import Type
 
 from .typing import CallKey
@@ -35,7 +33,7 @@ def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
     # the new/init from the named tuple as it won't unpack the
     # same way as the function call.
     @classmethod  # type: ignore[misc]
-    def from_call(cls: Any, *args: Tuple[Any], **kwargs: Dict[str, Any]) -> CallKey:
+    def from_call(cls: Any, *args: Any, **kwargs: Any) -> CallKey:
         bound = sig.bind(*args, **kwargs)
         bound.apply_defaults()
 

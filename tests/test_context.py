@@ -11,7 +11,7 @@ def test_null_handler() -> None:
     """Check null handlers does nothing."""
     null = NullHandler()
 
-    key = make_key_type(id)(1)
+    key = make_key_type(id).from_call(1)
 
     assert null.__contains__(key) is False
     with pytest.raises(NotImplementedError):
