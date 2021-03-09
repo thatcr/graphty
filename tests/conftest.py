@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 from _pytest.python import Metafunc
-from rich.console import Console
+from rich.console import Console  # type: ignore
 
 
 def pytest_generate_tests(metafunc: Metafunc) -> None:
