@@ -1,11 +1,13 @@
 """Base classes for core abstractions, typing."""
 from typing import Any
 from typing import Callable
+from typing import runtime_checkable
 from typing import TypeVar
 
 from typing_extensions import Protocol
 
 
+@runtime_checkable
 class CallKey(Protocol):
     """A class representing the call signature of a function."""
 
@@ -15,6 +17,7 @@ class CallKey(Protocol):
         ...
 
 
+@runtime_checkable
 class CallHandler(Protocol):
     """Handler invoked from node functions when they are called."""
 
@@ -34,6 +37,7 @@ class CallHandler(Protocol):
 F = TypeVar("F", bound=Callable[..., Any])
 
 
+@runtime_checkable
 class Decorator(Protocol):
     """Protocol for transforming a function to a shifted function."""
 

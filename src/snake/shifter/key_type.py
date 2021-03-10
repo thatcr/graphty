@@ -36,10 +36,6 @@ def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
     def from_call(cls: Any, *args: Any, **kwargs: Any) -> CallKey:
         bound = sig.bind(*args, **kwargs)
         bound.apply_defaults()
-
-        # this is wrong - how do we yunpack exactly the right args to mach
-        # the list in the tuple?
-
         return cast(CallKey, key_type(*bound.arguments.values()))
 
     key_type = type(
