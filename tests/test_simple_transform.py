@@ -19,34 +19,30 @@ class TransformedCallHandler:
 
     def __contains__(self, key: CallKey) -> bool:
         """Override the call if we have a transform."""
-        return key.func__ in self.transforms
+        return key.func__ in self.transforms  # type: ignore
 
     def __getitem__(self, key: CallKey) -> Any:
         """Invoke the transform function."""
-        # call the transform
-        print(key)
-        return self.transforms[key.func__](*key[:-1])
+        return self.transforms[key.func__](*key[:-1])  # type: ignore
 
     def __setitem__(self, key: CallKey, value: Any) -> None:
         """Nothing to do."""
         pass
 
 
-def test_transforms(decorator: Decorator):
+def test_transforms(decorator: Decorator) -> None:
     """Test we can intercept a function call."""
 
     @decorator
-    def f(x):
+    def f(x: int) -> int:
         return x
 
     @decorator
-    def g(a, b):
+    def g(a: int, b: int) -> int:
         return f(a) + f(b)
 
-    with Context(TransformedCallHandler()):
+    handler = TransformedCallHandler()
+    with Context(handler):
         assert g(1, 2) == 3
-
-    with Context(TransformedCallHandler()) as handler:
-        handler.transforms[f.__wrapped__] = lambda x: x + 1
-
+        handler.transforms[f.__wrapped__] = lambda x: x + 1  # type: ignore
         assert g(1, 2) == 5
