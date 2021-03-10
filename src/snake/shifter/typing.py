@@ -1,10 +1,10 @@
 """Base classes for core abstractions, typing."""
 from typing import Any
 from typing import Callable
-from typing import runtime_checkable
 from typing import TypeVar
 
 from typing_extensions import Protocol
+from typing_extensions import runtime_checkable
 
 
 @runtime_checkable
