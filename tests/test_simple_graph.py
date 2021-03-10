@@ -44,7 +44,7 @@ class GraphCallHandler:
         return False
 
     def __getitem__(self, key: CallKey) -> Any:
-        """Never called, we don't intercept return values."""
+        """Return value from the cache."""
         return self.retvals[key]
 
     def __setitem__(self, key: CallKey, value: Any) -> None:
