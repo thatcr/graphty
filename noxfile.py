@@ -15,6 +15,7 @@ nox.options.sessions = (
     "safety",
     "mypy",
     "tests",
+    "benchmarks",
     "typeguard",
     "docs-build",
     "coverage",
@@ -145,6 +146,25 @@ def tests(session: Session) -> None:
         if session.interactive:
             session.notify("coverage")
         pass
+
+
+@session(python=python_versions)
+def benchmarks(session: Session) -> None:
+    """Run the benchmark suite."""
+    session.install(".")
+    session.install(
+        "pytest",
+        "pytest-benchmark",
+        "pygments",
+        "xdoctest[color]",
+        "rich",
+    )
+    session.run(
+        "pytest",
+        "--benchmark-enable",
+        "--benchmark-only",
+        *session.posargs,
+    )
 
 
 @session
