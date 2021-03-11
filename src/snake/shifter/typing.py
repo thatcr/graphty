@@ -16,8 +16,6 @@ class CallKey(Protocol):
         """Generate a call signature from supplied arguments."""
         ...
 
-    # func__: Callable[..., Any]
-
 
 @runtime_checkable
 class CallHandler(Protocol):
