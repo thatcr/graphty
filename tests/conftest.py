@@ -29,5 +29,4 @@ def print() -> Any:
         record=False,
     )
 
-    # with mock.patch.dict(__builtins__, {"print": console.print}):
     return console.print
