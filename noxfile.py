@@ -124,7 +124,14 @@ def mypy(session: Session) -> None:
 def tests(session: Session) -> None:
     """Run the test suite."""
     session.install(".")
-    session.install("coverage[toml]", "pytest", "pygments", "xdoctest[color]", "rich")
+    session.install(
+        "coverage[toml]",
+        "pytest",
+        "pytest-benchmark",
+        "pygments",
+        "xdoctest[color]",
+        "rich",
+    )
     try:
         session.run(
             "coverage",
@@ -135,8 +142,8 @@ def tests(session: Session) -> None:
             *session.posargs,
         )
     finally:
-        # if session.interactive:
-        #    session.notify("coverage")
+        if session.interactive:
+            session.notify("coverage")
         pass
 
 
