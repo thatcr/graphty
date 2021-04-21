@@ -2,6 +2,7 @@
 /.coverage*
 /.nox/
 /.pytype/
+.venv/
 /dist/
 /docs/_build/
 /src/*.egg-info/
