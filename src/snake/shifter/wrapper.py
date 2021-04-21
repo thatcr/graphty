@@ -22,7 +22,6 @@ def shift(func: Callable[..., Any]) -> Callable[..., Any]:
         the modified function
     """
     key_type = make_key_type(func)
-    signature = key_type.__signature__  # type: ignore
 
     # import the global context handler stack here, which we bind into the wrapper
     from .context import Context
@@ -31,11 +30,7 @@ def shift(func: Callable[..., Any]) -> Callable[..., Any]:
     def _func(*args: Any, **kwargs: Any) -> Any:
         handler = Context._handlers[-1]
 
-        # this is slow, replace with a lookup (or defer to the
-        # bytecode version for speed)
-        bound = signature.bind(*args, **kwargs)
-        bound.apply_defaults()
-        key = key_type(*bound.arguments.values())
+        key = key_type.from_call(*args, **kwargs)
 
         if key in handler:
             value = handler[key]
