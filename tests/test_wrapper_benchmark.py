@@ -1,10 +1,10 @@
 """Test the overhead from wrapping a simple fibonacci function."""
 
 
-def test_benchmark_fib(benchmark):
+def test_benchmark_fib(benchmark):  # type: ignore
     """Benchmark an unadulterated function, for comparison."""
 
-    def fib(x):
+    def fib(x: int) -> int:
         if x <= 1:
             return 1
         return fib(x - 1) + fib(x - 2)
@@ -12,12 +12,12 @@ def test_benchmark_fib(benchmark):
     benchmark(fib, 9)
 
 
-def test_benchmark_wrapper_fib(benchmark):
+def test_benchmark_wrapper_fib(benchmark):  # type: ignore
     """Apply the wrapper with no context."""
     from snake.shifter.wrapper import shift
 
     @shift
-    def fib(x):
+    def fib(x: int) -> int:
         if x <= 1:
             return 1
         return fib(x - 1) + fib(x - 2)
