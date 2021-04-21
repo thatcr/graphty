@@ -16,7 +16,6 @@ nox.options.sessions = (
     "mypy",
     "tests",
     "benchmarks",
-    "typeguard",
     "docs-build",
     "coverage",
 )
@@ -181,16 +180,6 @@ def coverage(session: Session) -> None:
         session.run("coverage", "combine")
 
     session.run("coverage", *args)
-
-
-@session(python=python_versions)
-def typeguard(session: Session) -> None:
-    """Runtime type checking using Typeguard."""
-    session.install(".")
-    session.install(
-        "pytest", "pytest-benchmark", "typeguard", "pygments", "xdoctest[color]", "rich"
-    )
-    session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
 
 
 @session(name="docs-build", python=python_versions[0])
