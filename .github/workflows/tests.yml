@@ -27,6 +27,7 @@ jobs:
 
     env:
       NOXSESSION: ${{ matrix.session }}
+      PYTEST_ADDOPTS: --color=yes
 
     steps:
       - name: Check out the repository
