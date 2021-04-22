@@ -1,4 +1,7 @@
+import pytest
 from collections import defaultdict
+
+pytestmark = pytest.mark.benchmark(group=__name__)
 
 
 def test_defaultdict(benchmark):

@@ -162,6 +162,7 @@ def benchmarks(session: Session) -> None:
         "pytest",
         "--benchmark-enable",
         "--benchmark-only",
+        "--benchmark-columns=min,mean,max,stddev",
         *session.posargs,
     )
 

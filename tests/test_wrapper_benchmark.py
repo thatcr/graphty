@@ -1,4 +1,8 @@
 """Test the overhead from wrapping a simple fibonacci function."""
+import pytest
+
+
+pytestmark = pytest.mark.benchmark(group=__name__)
 
 
 def test_benchmark_fib(benchmark):  # type: ignore
