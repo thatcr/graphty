@@ -163,6 +163,7 @@ def benchmarks(session: Session) -> None:
         "--benchmark-enable",
         "--benchmark-only",
         "--benchmark-columns=min,mean,max,stddev",
+        f"--benchmark-json={session._runner.friendly_name}.json",
         *session.posargs,
     )
 

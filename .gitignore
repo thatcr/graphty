@@ -11,3 +11,4 @@ cov*.xml
 .vscode/.ropeproject/
 scratch*
 htmlcov/
+benchmarks-*.json
