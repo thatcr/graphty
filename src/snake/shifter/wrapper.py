@@ -31,6 +31,9 @@ def shift(func: F) -> F:
 
     @functools.wraps(func)
     def _func(*args: Any, **kwargs: Any) -> Any:
+        # remove this frame from pytest tracebacks
+        __tracebackhide__ = True
+
         handler = Context._handlers[-1]
 
         key = key_type.from_call(*args, **kwargs)
