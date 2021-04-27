@@ -1,8 +1,8 @@
 {
   "restructuredtext.languageServer.disabled": true,
-  "python.pythonPath": ".venv/bin/python",
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
-  "python.linting.enabled": true
+  "python.linting.enabled": true,
+  "python.pythonPath": "/home/vscode/.cache/pypoetry/virtualenvs/snake-shifter-xZwR_tIx-py3.9/bin/python"
 }
