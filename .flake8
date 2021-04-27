@@ -6,6 +6,7 @@ max-complexity = 10
 docstring-convention = pep257
 per-file-ignores = tests/*:S101
 exclude =
+    .venv,
     .git,
     __pycache__,
     scratch*,
