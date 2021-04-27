@@ -10,6 +10,7 @@ from typing import Set
 import pytest
 
 from snake.shifter import Context
+from snake.shifter import get_handler
 from snake.shifter import key
 from snake.shifter.typing import CallKey
 from snake.shifter.typing import Decorator
@@ -102,18 +103,23 @@ def test_simple_graph(decorator: Decorator) -> None:
         g(a, b)
         g(a, b)
 
-    assert handler.parents[key(g, a, b)] == set()
-    assert handler.parents[key(f, a, b)] == {key(g, a, b)}
+        assert key(g, a, b) not in handler.parents
+        assert key(f, a, b) in handler.parents
 
-    assert handler.children[key(f, a, b)] == set()
-    assert handler.children[key(g, a, b)] == {key(f, a, b)}
+        assert key(g, a, b).parents == set()
+        assert key(f, a, b).parents == {key(g, a, b)}
 
-    assert key(f, a, b) in handler.children
+        assert key(f, a, b) not in handler.children
+        assert key(g, a, b) in handler.children
 
-    assert key(f, a, b) in handler.retvals
-    assert key(g, a, b) in handler.retvals
-    assert handler.retvals[key(f, a, b)] == a + b
-    assert handler.retvals[key(g, a, b)] == a + b
+        assert key(f, a, b).children == set()
+        assert key(g, a, b).children == {key(f, a, b)}
+
+        assert key(f, a, b) in handler.retvals
+        assert key(g, a, b) in handler.retvals
+
+        assert key(f, a, b).result == a + b
+        assert key(g, a, b).result == a + b
 
     # tweak the cache, check it is used
     handler.retvals[key(g, a, b)] = 123
@@ -153,15 +159,21 @@ def test_simple_graph_exception(decorator: Decorator) -> None:
         with pytest.raises(RuntimeError):
             g(a, b)
 
-    # exceptions get cached twice - should this be the case, or do
-    # we re-call an throw from source?
-    assert type(handler.retvals[key(f, a, b)]) is Exception
-    assert type(handler.retvals[key(g, a, b)]) is Exception
-    assert handler.retvals[key(f, a, b)].args[0] is exception
-    assert handler.retvals[key(g, a, b)].args[0] is exception
+        # exceptions get cached twice - should this be the case, or do
+        # we re-call an throw from source?
+        assert type(handler.retvals[key(f, a, b)]) is Exception
+        assert type(handler.retvals[key(g, a, b)]) is Exception
+        assert key(f, a, b).exception is exception
+        assert key(g, a, b).exception is exception
 
-    assert handler.parents[key(g, a, b)] == set()
-    assert handler.parents[key(f, a, b)] == {key(g, a, b)}
+        with pytest.raises(RuntimeError):
+            key(f, a, b).result
+
+        with pytest.raises(RuntimeError):
+            key(g, a, b).result
+
+        assert key(g, a, b).parents == set()
+        assert key(f, a, b).parents == {key(g, a, b)}
 
 
 def test_simple_graph_bump(print: Callable[..., Any], decorator: Decorator) -> None:
@@ -186,12 +198,18 @@ def test_simple_graph_bump(print: Callable[..., Any], decorator: Decorator) -> N
     with Context(bumped):
         print(bumped.__dict__)
 
-        #
-        assert bumped.parents == {key(f, 2): set(), key(f, 3): set()}
+        assert get_handler() is bumped
+
+        assert bumped.retvals == {key(f, 2): 2, key(f, 3): 3, key(f, 1): 10}
+
+        assert key(f, 2).parents == set()
+        assert key(f, 3).parents == set()
 
         # no nodes have any children left - we evicted them all
         assert not bumped.children
-        assert bumped.retvals == {key(f, 2): 2, key(f, 3): 3, key(f, 1): 10}
+        assert key(f, 2).result == 2
+        assert key(f, 3).result == 3
+        assert key(f, 1).result == 10
 
         assert g(1, 2) == 12
 
