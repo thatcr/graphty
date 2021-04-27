@@ -1,0 +1,12 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "..",
+    },
+    "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+    ],
+    "postCreateCommand": ".devcontainer/build.sh",
+    "remoteUser": "vscode"
+}
