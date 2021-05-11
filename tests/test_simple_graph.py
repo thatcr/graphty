@@ -121,6 +121,9 @@ def test_simple_graph(decorator: Decorator) -> None:
         assert key(f, a, b).result == a + b
         assert key(g, a, b).result == a + b
 
+        assert key(f, a, b).exception is None
+        assert key(g, a, b).exception is None
+
     # tweak the cache, check it is used
     handler.retvals[key(g, a, b)] = 123
     with Context(handler):
