@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/base:stretch 
+FROM mcr.microsoft.com/vscode/devcontainers/base:stretch
 
 # install python build dependencies
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -23,4 +23,3 @@ RUN chmod -R a+rwx /opt/pyenv
 COPY requirements.txt /tmp/pip-tmp/
 RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
     && rm -rf /tmp/pip-tmp
-
