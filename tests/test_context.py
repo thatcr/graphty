@@ -13,12 +13,9 @@ def test_null_handler() -> None:
 
     key = make_key_type(id).from_call(1)
 
-    assert null.__contains__(key) is False
-    with pytest.raises(NotImplementedError):
-        null.__getitem__(key)
-
+    assert null.__getitem__(key) is Ellipsis    
     null.__setitem__(key, 2)
-    assert null.__contains__(key) is False
+    assert null.__getitem__(key) is Ellipsis
 
 
 def test_context_push() -> None:

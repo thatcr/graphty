@@ -37,13 +37,14 @@ def shift(func: F) -> F:
         handler = Context._handlers[-1]
 
         key = key_type.from_call(*args, **kwargs)
-
-        if key in handler:
-            value = handler[key]
-            if type(value) is Exception:
-                raise value.args[0] from value.args[0]
-
+        
+        value = handler[key]
+        
+        if type(value) is Exception:
+            raise value.args[0] from value.args[0]        
+        if value is not Ellipsis:
             return value
+        
         try:
             retval = func(*args, **kwargs)
             handler[key] = retval

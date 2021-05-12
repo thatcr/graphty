@@ -14,17 +14,17 @@ class NullHandler:
 
     Example:
         >>> handler = NullHandler()
-        >>> 1 in handler
-        False
+        >>> handler[1]
+        Ellipsis
     """
 
-    def __contains__(self, key: CallKey) -> bool:
-        """Avoid handling anything."""
-        return False
+    # def __contains__(self, key: CallKey) -> bool:
+    #     """Avoid handling anything."""
+    #     return False
 
     def __getitem__(self, key: CallKey) -> Any:
         """We never cache any values on this handler."""
-        raise NotImplementedError()
+        return Ellipsis
 
     def __setitem__(self, key: CallKey, value: Any) -> None:
         """Never process any function results."""

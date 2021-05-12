@@ -2,8 +2,8 @@
 from rich import print
 from rich.tree import Tree
 
-from grafty import Context
-from grafty import shift
+from graphty import Context
+from graphty import shift
 
 
 @shift
@@ -22,15 +22,16 @@ class RichTreeCallHandler:
         self.seen = set()
 
     def __contains__(self, key):
+
+        return False
+
+    def __getitem__(self, key):
         if self.stack[-1] is not None:
             branch = self.stack[-1].add(
                 key, style=("bold" if key not in self.seen else "#7F7F7F")
             )
         self.stack.append(branch)
-        return False
-
-    def __getitem__(self, key):
-        raise NotImplementedError
+        return Ellipsis
 
     def __setitem__(self, key, value):
         self.seen.add(key)

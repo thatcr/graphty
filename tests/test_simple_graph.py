@@ -32,21 +32,17 @@ class GraphCallHandler:
         self.children = defaultdict(set)
         self.retvals = dict()
 
-    def __contains__(self, key: CallKey) -> bool:
+    def __getitem__(self, key: CallKey) -> Any:
         """Register call with the parent, push onto stack."""
         if self.stack:
             self.children[self.stack[-1]].add(key)
             self.parents[key].add(self.stack[-1])
 
         if key in self.retvals:
-            return True
+            return self.retvals[key]
 
         self.stack.append(key)
-        return False
-
-    def __getitem__(self, key: CallKey) -> Any:
-        """Return value from the cache."""
-        return self.retvals[key]
+        return Ellipsis
 
     def __setitem__(self, key: CallKey, value: Any) -> None:
         """Pop call from stack."""

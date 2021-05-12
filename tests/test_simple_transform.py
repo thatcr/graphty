@@ -17,13 +17,11 @@ class TransformedCallHandler:
         """Initialize a set of transforms."""
         self.transforms = dict()
 
-    def __contains__(self, key: CallKey) -> bool:
-        """Override the call if we have a transform."""
-        return key.func__ in self.transforms  # type: ignore
-
     def __getitem__(self, key: CallKey) -> Any:
         """Invoke the transform function."""
-        return self.transforms[key.func__](*key[:-1])  # type: ignore
+        if key.func__ in self.transforms:
+            return self.transforms[key.func__](*key[:-1])  # type: ignore
+        return Ellipsis
 
     def __setitem__(self, key: CallKey, value: Any) -> None:
         """Nothing to do."""

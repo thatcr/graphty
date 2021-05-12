@@ -1,12 +1,12 @@
 """Test some simple combinations of functions and handlers."""
-from unittest.mock import MagicMock
-
 import pytest
+
+from unittest.mock import MagicMock
+from collections import defaultdict
 
 from graphty import Context
 from graphty import key
 from graphty.typing import Decorator
-
 
 def test_simple_func(
     decorator: Decorator,
@@ -17,7 +17,7 @@ def test_simple_func(
     def f(a: int, b: int) -> int:
         return a + b
 
-    with Context(dict()) as d:
+    with Context(defaultdict(lambda: Ellipsis)) as d:
         f(1, 2)
         f(1, 2)
 
@@ -39,7 +39,7 @@ def test_simple_failing_func(decorator: Decorator) -> None:
 
         raise exception
 
-    with Context(dict()) as d:
+    with Context(defaultdict(lambda: Ellipsis)) as d:
         try:
             f(1, 2)
         except RuntimeError as e:
@@ -54,9 +54,8 @@ def test_simple_failing_func(decorator: Decorator) -> None:
 
 def test_mock_null_handler(decorator: Decorator) -> None:
     """Check that a null mock handler is called correctly."""
-    handler = MagicMock()
-    handler.__contains__.return_value = False
-    handler.__getitem__.return_value = None
+    handler = MagicMock()    
+    handler.__getitem__.return_value = Ellipsis
     handler.__setitem__.return_value = None
 
     @decorator
@@ -65,17 +64,15 @@ def test_mock_null_handler(decorator: Decorator) -> None:
 
     with Context(handler):
         assert f(1, 2) == 3
-
-    handler.__contains__.assert_called_once_with(key(f, 1, 2))
-    handler.__getitem__.assert_not_called()
+    
+    handler.__getitem__.assert_called_once_with(key(f, 1, 2))
     handler.__setitem__.assert_called_once_with(key(f, 1, 2), 3)
 
 
 def test_mock_cached_handler(decorator: Decorator) -> None:
     """Check that a fixed value mock handler is called correctly."""
     return_value = -1
-    handler = MagicMock()
-    handler.__contains__.return_value = True
+    handler = MagicMock()    
     handler.__getitem__.return_value = return_value
     handler.__setitem__.return_value = None
 
@@ -88,7 +85,6 @@ def test_mock_cached_handler(decorator: Decorator) -> None:
 
     with Context(handler):
         assert f(1, 2) is return_value
-
-    handler.__contains__.assert_called_once_with(key(f, 1, 2))
+    
     handler.__getitem__.assert_called_once_with(key(f, 1, 2))
     handler.__setitem__.assert_not_called()

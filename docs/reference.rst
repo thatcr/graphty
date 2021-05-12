@@ -6,8 +6,8 @@ Reference
     :backlinks: none
 
 
-grafty.__main__
+graphty.__main__
 ----------------------
 
-.. automodule:: grafty.__main__
+.. automodule:: graphty.__main__
    :members:

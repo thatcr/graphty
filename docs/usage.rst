@@ -1,6 +1,6 @@
 Usage
 =====
 
-.. click:: grafty.__main__:main
-   :prog: grafty
+.. click:: graphty.__main__:main
+   :prog: graphty
    :nested: full

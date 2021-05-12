@@ -13,4 +13,4 @@
    contributing
    Code of Conduct <codeofconduct>
    License <license>
-   Changelog <https://github.com/thatcr/grafty/releases>
+   Changelog <https://github.com/thatcr/graphty/releases>
