@@ -1,1 +1,1 @@
-"""Test suite for the snake.shifter package."""
+"""Test suite for the graphty package."""

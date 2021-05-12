@@ -1,13 +1,16 @@
 """Test some simple combinations of functions and handlers."""
 import logging
 
-from snake.shifter import Context
-from snake.shifter import key
-from snake.shifter.logging import LoggingHandler
-from snake.shifter.typing import Decorator
+from typing import Callable
+from typing import Any
+
+from graphty import Context
+from graphty import key
+from graphty.logging import LoggingHandler
+from graphty.typing import Decorator
 
 
-def test_fib(decorator: Decorator, caplog) -> None:
+def test_fib(print: Callable[..., Any], decorator: Decorator, caplog) -> None:
     """Check that caching fibonacci works."""
 
     caplog.set_level(logging.INFO)
@@ -32,7 +35,9 @@ def test_fib(decorator: Decorator, caplog) -> None:
     ) as handler:
         assert fib(0) == 1
 
-    assert caplog.records[0].message == f"{key(fib, 0)!r} ..."
-    assert caplog.records[1].message == f"{key(fib, 0)!r} = 1"
+    assert caplog.records[0].getMessage() == f"{key(fib, 0)!r} ..."
+    assert caplog.records[1].getMessage() == f"{key(fib, 0)!r} = 1"
 
-    print(caplog.records)
+    for record in caplog.records:
+        assert record.func == 'fib'        
+        assert record.kwargs['x'] == '0'            

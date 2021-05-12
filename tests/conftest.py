@@ -1,4 +1,4 @@
-"""Common fixures for testing snake-shifter."""
+"""Common fixures for testing grafty."""
 import sys
 from typing import Any
 
@@ -9,9 +9,9 @@ from rich.console import Console  # type: ignore
 
 def pytest_generate_tests(metafunc: Metafunc) -> None:
     """Map decorator fixture to list of decorators to test."""
-    import snake.shifter.wrapper
+    import graphty.wrapper
 
-    decorators = [snake.shifter.wrapper.shift]
+    decorators = [graphty.wrapper.shift]
 
     if "decorator" in metafunc.fixturenames:
         metafunc.parametrize(

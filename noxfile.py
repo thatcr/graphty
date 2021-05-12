@@ -8,7 +8,7 @@ import nox
 from nox_poetry import Session
 from nox_poetry import session
 
-package = "snake.shifter"
+package = "grafty"
 python_versions = ["3.9", "3.8", "3.7"]
 nox.options.sessions = (
     "pre-commit",

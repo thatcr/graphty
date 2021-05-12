@@ -3,9 +3,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from snake.shifter import Context
-from snake.shifter import key
-from snake.shifter.typing import Decorator
+from graphty import Context
+from graphty import key
+from graphty.typing import Decorator
 
 
 def test_simple_func(

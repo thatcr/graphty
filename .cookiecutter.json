@@ -2,9 +2,9 @@
   "_template": "https://github.com/cjolowicz/cookiecutter-hypermodern-python",
   "author": "Rob Thatcher",
   "email": "thatcr@gmail.com",
-  "friendly_name": "Snake Shifter",
+  "friendly_name": "Grafty",
   "github_user": "thatcr",
-  "package_name": "snake.shifter",
-  "project_name": "snake-shifter",
+  "package_name": "Grafty",
+  "project_name": "Grafty",
   "version": "0.0.0"
 }

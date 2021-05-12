@@ -1,4 +1,4 @@
-"""Snake Shifter."""
+"""Grafty."""
 from typing import Any
 from typing import Callable
 

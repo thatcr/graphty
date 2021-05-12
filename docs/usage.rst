@@ -1,6 +1,6 @@
 Usage
 =====
 
-.. click:: snake.shifter.__main__:main
-   :prog: snake-shifter
+.. click:: grafty.__main__:main
+   :prog: grafty
    :nested: full

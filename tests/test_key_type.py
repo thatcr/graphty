@@ -4,7 +4,7 @@ from typing import Dict
 from typing import Optional
 from typing import Tuple
 
-from snake.shifter.key_type import make_key_type
+from graphty.key_type import make_key_type
 
 
 def test_equality() -> None:

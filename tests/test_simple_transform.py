@@ -3,9 +3,9 @@ from typing import Any
 from typing import Callable
 from typing import Dict
 
-from snake.shifter import Context
-from snake.shifter.typing import CallKey
-from snake.shifter.typing import Decorator
+from graphty import Context
+from graphty.typing import CallKey
+from graphty.typing import Decorator
 
 
 class TransformedCallHandler:

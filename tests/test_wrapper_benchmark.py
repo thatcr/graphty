@@ -18,7 +18,7 @@ def test_benchmark_fib(benchmark):  # type: ignore
 
 def test_benchmark_wrapper_fib(benchmark):  # type: ignore
     """Apply the wrapper with no context."""
-    from snake.shifter.wrapper import shift
+    from graphty.wrapper import shift
 
     @shift
     def fib(x: int) -> int:

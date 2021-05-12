@@ -9,7 +9,10 @@
       "type": "python",
       "request": "launch",
       "module": "pytest",
-      "args": ["--typeguard-packages", "snake.shifter"],
+      "args": [
+        "--typeguard-packages",
+        "grafty"
+      ],
       "cwd": "${workspaceFolder}"
     }
   ]

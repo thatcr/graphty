@@ -2,8 +2,8 @@
 from rich import print
 from rich.tree import Tree
 
-from snake.shifter import Context
-from snake.shifter import shift
+from grafty import Context
+from grafty import shift
 
 
 @shift

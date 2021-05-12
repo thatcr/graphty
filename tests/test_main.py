@@ -2,7 +2,7 @@
 import pytest
 from click.testing import CliRunner
 
-from snake.shifter import __main__
+from graphty import __main__
 
 
 @pytest.fixture

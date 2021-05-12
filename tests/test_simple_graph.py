@@ -9,11 +9,11 @@ from typing import Set
 
 import pytest
 
-from snake.shifter import Context
-from snake.shifter import get_handler
-from snake.shifter import key
-from snake.shifter.typing import CallKey
-from snake.shifter.typing import Decorator
+from graphty import Context
+from graphty import get_handler
+from graphty import key
+from graphty.typing import CallKey
+from graphty.typing import Decorator
 
 
 class GraphCallHandler:

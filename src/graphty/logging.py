@@ -14,13 +14,16 @@ class LoggingHandler(object):
     def __contains__(self, key: CallKey) -> bool:
         """Avoid handling anything."""
         self.logger.log(
-            self.level, f"{'  ' * self.indent}{key!r} ...", extra=key.__dict__
+            self.level, f"{'  ' * self.indent}{key!r} ...",          
+            extra={"func" : key.func, "kwargs" : key.kwargs}
         )
         self.indent += 1
         return False
 
     def __getitem__(self, key: CallKey) -> Any:
         """We never cache any values on this handler."""
+        # we don't know the value to log, unless we pass through
+        
         # how do we nest calls here?
         raise NotImplementedError()
 
@@ -30,6 +33,6 @@ class LoggingHandler(object):
         self.logger.log(
             self.level,
             f"{'  ' * self.indent}{key!r} = {value!r}",
-            extra=key.__dict__,
+            extra={"func" : key.func, "kwargs" : key.kwargs}
         )
         pass

@@ -6,6 +6,7 @@ from typing import Callable
 from typing import cast
 from typing import FrozenSet
 from typing import Type
+from typing import Dict
 
 from .context import get_handler
 from .typing import CallKey
@@ -20,6 +21,10 @@ def _from_call(cls: Any, *args: Any, **kwargs: Any) -> CallKey:
 
 class CallKeyImpl(object):
     """Default implementation of call key methods that redirect to the handler."""
+             
+    def __repr__(self: Any) -> str:
+        """Make a human readable string from the key"""
+        return self.__repr_fmt__.format(*self[:-1])
 
     @property
     def parents(self) -> FrozenSet[CallKey]:
@@ -37,7 +42,7 @@ class CallKeyImpl(object):
         retval = get_handler().retvals[self]
         if isinstance(retval, Exception):
             raise retval.args[0]
-        return retval
+        return retval    
 
     @property
     def exception(self) -> Exception:
@@ -47,6 +52,18 @@ class CallKeyImpl(object):
             return retval.args[0]
         return None
 
+    @property
+    def func(self):
+        return (
+            self.func__.__name__
+            if "<locals>" in self.func__.__qualname__
+            else self.func__.__module__ + "." + self.func__.__qualname__
+        )
+
+    @property
+    def kwargs(self):
+        return { self._fields[i] : repr(self[i]) for i in range(0, len(self)-1) }
+    
 
 def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
     """Construct a type representing a functions signature."""
@@ -64,10 +81,6 @@ def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
         + ")"
     )
 
-    # patch the repr so it looked pretty
-    def _repr(self: Any) -> str:
-        return repr_fmt.format(*self[:-1])
-
     key_type = type(
         func.__name__,
         (
@@ -81,7 +94,7 @@ def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
             ),
         ),
         {
-            "__repr__": _repr,
+            "__repr_fmt__": repr_fmt,
             "__func__": func,
             "__module__": func.__module__,
             "__signature__": sig,

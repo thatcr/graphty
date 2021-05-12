@@ -6,8 +6,8 @@ Reference
     :backlinks: none
 
 
-snake.shifter.__main__
+grafty.__main__
 ----------------------
 
-.. automodule:: snake.shifter.__main__
+.. automodule:: grafty.__main__
    :members:

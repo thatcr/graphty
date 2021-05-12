@@ -1,7 +1,7 @@
 """Test some simple combinations of functions and handlers."""
-from snake.shifter import Context
-from snake.shifter import key
-from snake.shifter.typing import Decorator
+from graphty import Context
+from graphty import key
+from graphty.typing import Decorator
 
 
 def test_fib(decorator: Decorator) -> None:

@@ -5,7 +5,7 @@ from typing import MutableSet
 
 import pytest
 
-from snake.shifter.typing import CallHandler
+from graphty.typing import CallHandler
 
 
 pytestmark = pytest.mark.benchmark(group=__name__)

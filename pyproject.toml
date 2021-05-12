@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "snake-shifter"
+name = "graphty"
 version = "0.0.0"
-description = "Snake Shifter"
+description = "Graphty"
 authors = ["Rob Thatcher <thatcr@gmail.com>"]
 license = "MIT"
 readme = "README.rst"
-homepage = "https://github.com/thatcr/snake-shifter"
-repository = "https://github.com/thatcr/snake-shifter"
-documentation = "https://snake-shifter.readthedocs.io"
+homepage = "https://github.com/thatcr/graphty"
+repository = "https://github.com/thatcr/graphty"
+documentation = "https://graphty.readthedocs.io"
 classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
@@ -15,11 +15,11 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
 ]
 packages=[
-    { include="snake", from="src" }
+    { include="graphty", from="src" }
 ]
 
 [tool.poetry.urls]
-Changelog = "https://github.com/thatcr/snake-shifter/releases"
+Changelog = "https://github.com/thatcr/grafty/releases"
 
 [tool.poetry.dependencies]
 python = "^3.6.1"
@@ -58,7 +58,7 @@ rich = "^9.10.0"
 pytest-benchmark = "^3.2.3"
 
 [tool.poetry.scripts]
-snake-shifter = "snake.shifter.__main__:main"
+grafty = "grafty.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -66,7 +66,7 @@ tests = ["tests", "*/tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["snake.shifter", "tests/"]
+source = ["grafty", "tests/"]
 
 [tool.coverage.report]
 show_missing = true
