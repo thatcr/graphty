@@ -12,11 +12,12 @@ import pytest
 from graphty import Context
 from graphty import get_handler
 from graphty import key
+from graphty import Handler
 from graphty.typing import CallKey
 from graphty.typing import Decorator
 
 
-class GraphCallHandler:
+class GraphHandler(Handler):
     """Store the set of calls that each call makes."""
 
     stack: List[CallKey]
@@ -49,9 +50,9 @@ class GraphCallHandler:
         self.retvals[key] = value
         self.stack.pop()
 
-    def bump(self, changes: Mapping[CallKey, Any]) -> "GraphCallHandler":
+    def bump(self, changes: Mapping[CallKey, Any]) -> "GraphHandler":
         """Create a new handler with some return values overridden."""
-        handler = GraphCallHandler()
+        handler = GraphHandler()
 
         handler.retvals = self.retvals.copy()
 
@@ -94,7 +95,7 @@ def test_simple_graph(decorator: Decorator) -> None:
     a = 1
     b = 2
 
-    handler = GraphCallHandler()
+    handler = GraphHandler()
     with Context(handler):
         g(a, b)
         g(a, b)
@@ -148,7 +149,7 @@ def test_simple_graph_exception(decorator: Decorator) -> None:
     a = 1
     b = 2
 
-    handler = GraphCallHandler()
+    handler = GraphHandler()
     with Context(handler):
         try:
             g(a, b)
@@ -186,7 +187,7 @@ def test_simple_graph_bump(print: Callable[..., Any], decorator: Decorator) -> N
     def g(x: int, y: int) -> int:
         return f(x) + f(y)
 
-    handler = GraphCallHandler()
+    handler = GraphHandler()
     with Context(handler):
         assert g(1, 2) == 3
         assert g(1, 3) == 4

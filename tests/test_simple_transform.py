@@ -4,11 +4,12 @@ from typing import Callable
 from typing import Dict
 
 from graphty import Context
+from graphty import Handler
 from graphty.typing import CallKey
 from graphty.typing import Decorator
 
 
-class TransformedCallHandler:
+class TransformedHandler(Handler):
     """Store the set of calls that each call makes."""
 
     transforms: Dict[Callable[..., Any], Callable[..., Any]]
@@ -39,7 +40,7 @@ def test_transforms(decorator: Decorator) -> None:
     def g(a: int, b: int) -> int:
         return f(a) + f(b)
 
-    handler = TransformedCallHandler()
+    handler = TransformedHandler()
     with Context(handler):
         assert g(1, 2) == 3
         handler.transforms[f.__wrapped__] = lambda x: x + 1  # type: ignore

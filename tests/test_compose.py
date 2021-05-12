@@ -19,11 +19,14 @@ def test_compose(decorator: Decorator, caplog) -> None:
         return fib(x - 1) + fib(x - 2)
 
     caplog.clear()
-    d = defaultdict(lambda: Ellipsis)
-    l = LoggingHandler(level=logging.INFO, logger=logging.getLogger(""))
-    with Context(l, d) as handler:
+    cache = defaultdict(lambda: Ellipsis)
+    handler = LoggingHandler(
+        level=logging.INFO, logger=logging.getLogger(""), next=cache
+    )
+
+    with Context(handler) as handler:
         assert fib(0) == 1
 
     assert caplog.records[0].getMessage() == f"{key(fib, 0)!r} ..."
     assert caplog.records[1].getMessage() == f"{key(fib, 0)!r} = 1"
-    assert d[key(fib, 0)] == 1
+    assert cache[key(fib, 0)] == 1

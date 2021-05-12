@@ -1,8 +1,10 @@
 from typing import Any
 from .typing import CallKey
 
+from .handler import Handler
 
-class NullHandler:
+
+class NullHandler(Handler):
     """Handler that does nothing.
 
     Example:

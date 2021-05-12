@@ -1,12 +1,13 @@
 import logging
 from typing import Any
 
-from .typing import CallHandler
 from .typing import CallKey
+from .handler import Handler
 
 
-class LoggingHandler(object):
-    def __init__(self, logger, level=logging.DEBUG):
+class LoggingHandler(Handler):
+    def __init__(self, logger, level=logging.DEBUG, next=None):
+        super().__init__(next=next)
         self.level = level
         self.logger = logger
         self.indent = 0
@@ -18,7 +19,7 @@ class LoggingHandler(object):
             f"{'  ' * self.indent}{key!r} ...",
             extra={"func": key.func, "kwargs": key.kwargs},
         )
-        return Ellipsis
+        return super().__getitem__(key)
 
     def __setitem__(self, key: CallKey, value: Any) -> None:
         """Log the result of calling the function"""
@@ -28,4 +29,4 @@ class LoggingHandler(object):
             f"{'  ' * self.indent}{key!r} = {value!r}",
             extra={"func": key.func, "kwargs": key.kwargs},
         )
-        pass
+        super().__setitem__(key, value)

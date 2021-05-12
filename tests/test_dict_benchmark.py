@@ -5,7 +5,7 @@ from typing import MutableSet
 
 import pytest
 
-from graphty.typing import CallHandler
+from graphty import Handler
 
 
 pytestmark = pytest.mark.benchmark(group=__name__)
@@ -13,7 +13,7 @@ pytestmark = pytest.mark.benchmark(group=__name__)
 
 def test_defaultdict(benchmark):  # type: ignore
     """Benchmark performance of initializing a defaultdict."""
-    d: CallHandler = defaultdict(set)
+    d: Handler = defaultdict(set)
 
     def insert(d: Mapping[int, MutableSet[int]], key: int, value: int) -> None:
         d[key].add(value)
@@ -23,7 +23,7 @@ def test_defaultdict(benchmark):  # type: ignore
 
 def test_dict(benchmark):  # type: ignore
     """Benchmark performance of regular dict, testing for the key first."""
-    d: CallHandler = dict()
+    d: Handler = dict()
 
     def insert(d: Mapping[int, MutableSet[int]], key: int, value: int) -> None:
         if key not in d:
@@ -35,7 +35,7 @@ def test_dict(benchmark):  # type: ignore
 
 def test_setdefault(benchmark):  # type: ignore
     """Benchmark using setdefault to fill missing values."""
-    d: CallHandler = dict()
+    d: Handler = dict()
 
     def insert(d: Mapping[int, MutableSet[int]], key: int, value: int) -> None:
         d.setdefault(key, set()).add(value)

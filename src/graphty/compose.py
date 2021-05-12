@@ -1,8 +1,11 @@
-# unless the getitem is nested, we can't process the result nicely.
-# remember the multi-layer cache case, where we have bigger objects on disk.
-
 from typing import Any
 from .typing import CallKey
+
+
+# code issue it that the dict-based API doesn't wrap the function call
+# so doesn't have policy over what's actually executed.
+
+# unless we layer the
 
 
 class CompositeHandler:
@@ -23,6 +26,3 @@ class CompositeHandler:
     def __setitem__(self, key: CallKey, value: Any) -> None:
         for handler in self.handlers:
             handler[key] = value
-
-
-# make a better combinator for this?

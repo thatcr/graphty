@@ -4,5 +4,5 @@
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
-  "python.pythonPath": "/home/vscode/.cache/pypoetry/virtualenvs/graphty-xZwR_tIx-py3.9"
+  "python.pythonPath": "/home/vscode/.cache/pypoetry/virtualenvs/graphty-nkKTgCMO-py3.9/bin/python"
 }

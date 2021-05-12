@@ -4,6 +4,7 @@ from rich.tree import Tree
 
 from graphty import Context
 from graphty import shift
+from graphty.handler import Handler
 
 
 @shift
@@ -16,14 +17,10 @@ def g(a, b):
     return f(a, b) + f(b, a)
 
 
-class RichTreeCallHandler:
+class RichTreeHandler(Handler):
     def __init__(self):
         self.stack = [Tree("Calls", highlight=True)]
         self.seen = set()
-
-    def __contains__(self, key):
-
-        return False
 
     def __getitem__(self, key):
         if self.stack[-1] is not None:
@@ -39,7 +36,7 @@ class RichTreeCallHandler:
         branch.label = repr(key) + " = " + repr(value)
 
 
-with Context(RichTreeCallHandler()) as handler:
+with Context(RichTreeHandler()) as handler:
     g(1, 2)
 print(handler.stack[0])
 
@@ -51,6 +48,6 @@ def fib(n):
     return fib(n - 1) + fib(n - 2)
 
 
-with Context(RichTreeCallHandler()) as handler:
+with Context(RichTreeHandler()) as handler:
     fib(7)
 print(handler.stack[0])
