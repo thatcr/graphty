@@ -8,27 +8,8 @@ from typing import Type
 from .typing import CallHandler
 from .typing import CallKey
 
-
-class NullHandler:
-    """Handler that does nothing.
-
-    Example:
-        >>> handler = NullHandler()
-        >>> handler[1]
-        Ellipsis
-    """
-
-    # def __contains__(self, key: CallKey) -> bool:
-    #     """Avoid handling anything."""
-    #     return False
-
-    def __getitem__(self, key: CallKey) -> Any:
-        """We never cache any values on this handler."""
-        return Ellipsis
-
-    def __setitem__(self, key: CallKey, value: Any) -> None:
-        """Never process any function results."""
-        pass
+from .null import NullHandler
+from .compose import CompositeHandler
 
 
 class Context(object):
@@ -39,9 +20,12 @@ class Context(object):
     # TODO make this thread/coroutine safe
     _handlers: List[CallHandler] = [NullHandler()]
 
-    def __init__(self, handler: CallHandler):
+    def __init__(self, handler, *handlers: CallHandler):
         """Initialize context with a handler instance."""
-        self.handler = handler
+        if handlers:
+            self.handler = CompositeHandler((handler,) + handlers)
+        else:
+            self.handler = handler
 
     def __enter__(self) -> CallHandler:
         """Push the handler onto the global stack."""

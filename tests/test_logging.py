@@ -10,7 +10,7 @@ from graphty.logging import LoggingHandler
 from graphty.typing import Decorator
 
 
-def test_fib(print: Callable[..., Any], decorator: Decorator, caplog) -> None:
+def test_logging(print: Callable[..., Any], decorator: Decorator, caplog) -> None:
     """Check that caching fibonacci works."""
 
     caplog.set_level(logging.INFO)
@@ -39,5 +39,5 @@ def test_fib(print: Callable[..., Any], decorator: Decorator, caplog) -> None:
     assert caplog.records[1].getMessage() == f"{key(fib, 0)!r} = 1"
 
     for record in caplog.records:
-        assert record.func == 'fib'        
-        assert record.kwargs['x'] == '0'            
+        assert record.func == "fib"
+        assert record.kwargs["x"] == "0"

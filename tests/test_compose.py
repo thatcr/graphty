@@ -7,17 +7,10 @@ from graphty.logging import LoggingHandler
 from graphty.typing import Decorator
 
 
-
-# do we have filters and handlers, like logging?
-# or shoud we collapse the wrapper to using just get/set to make ti easier.
-# make Ellipsis the sentinel for the call.
-
-# a logging filter could pick ip the node trace (and context)...
-# chain of command must always be nested?
-
-
 def test_compose(decorator: Decorator, caplog) -> None:
     """Compose a logger and a cache"""
+
+    caplog.set_level(logging.INFO)
 
     @decorator
     def fib(x: int) -> int:
@@ -26,9 +19,9 @@ def test_compose(decorator: Decorator, caplog) -> None:
         return fib(x - 1) + fib(x - 2)
 
     caplog.clear()
-    d = defaultdict(Ellipsis)
+    d = defaultdict(lambda: Ellipsis)
     l = LoggingHandler(level=logging.INFO, logger=logging.getLogger(""))
-    with Context(l, d):
+    with Context(l, d) as handler:
         assert fib(0) == 1
 
     assert caplog.records[0].getMessage() == f"{key(fib, 0)!r} ..."
