@@ -29,4 +29,4 @@ def fib(n):
 
 with Context(RichTreeHandler()) as handler:
     fib(7)
-print(handler.stack[0])
+print(handler)
