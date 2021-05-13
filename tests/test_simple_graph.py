@@ -11,8 +11,8 @@ import pytest
 
 from graphty import Context
 from graphty import get_handler
-from graphty import Handler
 from graphty import node
+from graphty.handler import Handler
 from graphty.typing import Decorator
 from graphty.typing import Node
 

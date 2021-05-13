@@ -3,7 +3,7 @@ import logging
 from typing import Any
 
 from .handler import Handler
-from .typing import Node
+from .node import Node
 
 
 class LoggingHandler(Handler):

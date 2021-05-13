@@ -4,7 +4,7 @@ from typing import Callable
 from typing import Dict
 
 from graphty import Context
-from graphty import Handler
+from graphty.handler import Handler
 from graphty.typing import Decorator
 from graphty.typing import Node
 

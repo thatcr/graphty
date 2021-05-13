@@ -10,21 +10,21 @@ from typing import Tuple
 from typing import Type
 
 from .context import get_handler
-from .typing import Node
+from .typing import Node as Node
 
 
-def _from_call(cls: Any, *args: Any, **kwargs: Any) -> Node:
-    """Build a call key by unpacking functionc all arguments."""
-    bound = cls.__signature__.bind(*args, **kwargs)
-    bound.apply_defaults()
-    return cast(Node, cls(*bound.arguments.values()))
-
-
-class NodeImpl(tuple):
+class NodeImpl(tuple, Node):
     """Default implementation of call key methods that redirect to the handler."""
 
     __func__: Callable[..., Any]
     _fields: Tuple[str]
+
+    @classmethod
+    def from_call(cls: Any, *args: Any, **kwargs: Any) -> Node:
+        """Build a call key by unpacking functionc all arguments."""
+        bound = cls.__signature__.bind(*args, **kwargs)
+        bound.apply_defaults()
+        return cast(Node, cls(*bound.arguments.values()))
 
     def __repr__(self: Any) -> str:
         """Make a human readable string from the key."""
@@ -58,7 +58,7 @@ class NodeImpl(tuple):
 
     @property
     def kwargs(self):
-        """Return a dictionay of parameter names to their values as strings."""
+        """Return a dictionary of parameter names to their values as strings."""
         return {self._fields[i]: repr(self[i]) for i in range(0, len(self) - 1)}
 
     @property
@@ -92,11 +92,11 @@ def make_node_type(func: Callable[..., Any]) -> Type[Node]:
         + ")"
     )
 
+    # NOTE we add the func to the tuple since the namedtuple type isn't in the hash
     key_type = type(
         func.__name__,
         (
             Node,
-            NodeImpl,
             namedtuple(
                 func.__name__,
                 tuple(sig.parameters.keys()) + ("func__",),
@@ -109,9 +109,15 @@ def make_node_type(func: Callable[..., Any]) -> Type[Node]:
             "__func__": func,
             "__module__": func.__module__,
             "__signature__": sig,
-            "from_call": classmethod(_from_call),
             **NodeImpl.__dict__,
         },
     )
 
     return key_type
+
+
+def node(func: Callable[..., Any], *args: Any, **kwargs: Any) -> Node:
+    """Construct a key to a function call with the given arguments."""
+    # since we are preserving fundamental python types as far as possible
+    # we disable type checking here, __key__ is an implementation detail.
+    return func.__key__.from_call(*args, **kwargs)  # type: ignore
