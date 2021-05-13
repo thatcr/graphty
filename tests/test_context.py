@@ -1,6 +1,4 @@
 """Test simple handler and context combinations."""
-import pytest
-
 from graphty.context import Context
 from graphty.context import get_handler
 from graphty.context import NullHandler

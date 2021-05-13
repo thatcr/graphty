@@ -1,6 +1,4 @@
 """Test some simple combinations of functions and handlers."""
-import sys
-import traceback
 from collections import defaultdict
 from unittest.mock import MagicMock
 
