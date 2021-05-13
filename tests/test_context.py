@@ -13,7 +13,7 @@ def test_null_handler() -> None:
 
     key = make_key_type(id).from_call(1)
 
-    assert null.__getitem__(key) is Ellipsis    
+    assert null.__getitem__(key) is Ellipsis
     null.__setitem__(key, 2)
     assert null.__getitem__(key) is Ellipsis
 

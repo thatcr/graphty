@@ -3,7 +3,6 @@ from rich import print
 
 from graphty import Context
 from graphty import shift
-
 from graphty.rich import RichTreeHandler
 
 
@@ -19,7 +18,6 @@ def g(a, b):
 
 with Context(RichTreeHandler()) as handler:
     g(1, 2)
-print(handler.stack[0])
 
 
 @shift

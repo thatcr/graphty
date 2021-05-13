@@ -1,10 +1,10 @@
 """Test some simple combinations of functions and handlers."""
 import sys
-import pytest
 import traceback
-
-from unittest.mock import MagicMock
 from collections import defaultdict
+from unittest.mock import MagicMock
+
+import pytest
 
 from graphty import Context
 from graphty import key

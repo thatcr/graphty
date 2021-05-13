@@ -1,6 +1,6 @@
 import logging
-
 from collections import defaultdict
+
 from graphty import Context
 from graphty import key
 from graphty.logging import LoggingHandler

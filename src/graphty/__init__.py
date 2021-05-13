@@ -4,9 +4,9 @@ from typing import Callable
 
 from .context import Context
 from .context import get_handler
+from .handler import Handler
 from .typing import CallKey
 from .wrapper import shift
-from .handler import Handler
 
 
 def key(func: Callable[..., Any], *args: Any, **kwargs: Any) -> CallKey:

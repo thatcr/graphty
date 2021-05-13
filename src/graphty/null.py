@@ -1,7 +1,7 @@
 from typing import Any
-from .typing import CallKey
 
 from .handler import Handler
+from .typing import CallKey
 
 
 class NullHandler(Handler):

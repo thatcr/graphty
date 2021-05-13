@@ -9,10 +9,7 @@
       "type": "python",
       "request": "launch",
       "module": "pytest",
-      "args": [
-        "--typeguard-packages",
-        "grafty"
-      ],
+      "args": ["--typeguard-packages", "grafty"],
       "cwd": "${workspaceFolder}"
     }
   ]

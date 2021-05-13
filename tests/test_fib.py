@@ -1,9 +1,10 @@
 """Test some simple combinations of functions and handlers."""
+from collections import defaultdict
+
 from graphty import Context
 from graphty import key
 from graphty.typing import Decorator
 
-from collections import defaultdict
 
 def test_fib(decorator: Decorator) -> None:
     """Check that caching fibonacci works."""

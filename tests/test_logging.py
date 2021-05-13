@@ -1,8 +1,7 @@
 """Test some simple combinations of functions and handlers."""
 import logging
-
-from typing import Callable
 from typing import Any
+from typing import Callable
 
 from graphty import Context
 from graphty import key

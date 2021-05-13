@@ -4,9 +4,9 @@ from collections import namedtuple
 from typing import Any
 from typing import Callable
 from typing import cast
+from typing import Dict
 from typing import FrozenSet
 from typing import Type
-from typing import Dict
 
 from .context import get_handler
 from .typing import CallKey
@@ -21,7 +21,7 @@ def _from_call(cls: Any, *args: Any, **kwargs: Any) -> CallKey:
 
 class CallKeyImpl(object):
     """Default implementation of call key methods that redirect to the handler."""
-             
+
     def __repr__(self: Any) -> str:
         """Make a human readable string from the key"""
         return self.__repr_fmt__.format(*self[:-1])
@@ -42,7 +42,7 @@ class CallKeyImpl(object):
         retval = get_handler().retvals[self]
         if isinstance(retval, Exception):
             raise retval.args[0]
-        return retval    
+        return retval
 
     @property
     def exception(self) -> Exception:
@@ -62,8 +62,8 @@ class CallKeyImpl(object):
 
     @property
     def kwargs(self):
-        return { self._fields[i] : repr(self[i]) for i in range(0, len(self)-1) }
-    
+        return {self._fields[i]: repr(self[i]) for i in range(0, len(self) - 1)}
+
 
 def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
     """Construct a type representing a functions signature."""

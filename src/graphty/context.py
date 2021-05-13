@@ -6,9 +6,8 @@ from typing import Optional
 from typing import Type
 
 from .handler import Handler
-from .typing import CallKey
-
 from .null import NullHandler
+from .typing import CallKey
 
 # should handler and context collapse to a single class.
 
