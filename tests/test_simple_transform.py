@@ -20,7 +20,7 @@ class TransformedHandler(Handler):
 
     def __getitem__(self, key: CallKey) -> Any:
         """Invoke the transform function."""
-        if key.func__ in self.transforms:
+        if key.func in self.transforms:
             return self.transforms[key.func__](*key[:-1])  # type: ignore
         return Ellipsis
 

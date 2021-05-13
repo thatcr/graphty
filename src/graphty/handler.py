@@ -1,10 +1,19 @@
+"""Base implementation for handling graphty events."""
 from typing import Any
 
 from .typing import CallKey
 
 
 class Handler:
+    """Base class for all graphty event handlers.
+
+    This class exposes the basic dict protocol for getitem and setitem
+    which graphty hooks into functions to allow the handler to intercept
+    calls and the results.
+    """
+
     def __init__(self, next=None):
+        """Configure the handler, with the given underlying handler to pass through."""
         self.next = next
 
     def __setitem__(self, key: CallKey, value: Any) -> None:

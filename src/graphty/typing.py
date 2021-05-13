@@ -2,6 +2,7 @@
 from typing import Any
 from typing import Callable
 from typing import FrozenSet
+from typing import Mapping
 from typing import TypeVar
 
 from typing_extensions import Protocol
@@ -35,6 +36,18 @@ class CallKey(Protocol):
     @property
     def exception(self) -> Exception:
         """Return any exception raised by the call, or None if there is none."""
+
+    @property
+    def kwargs(self) -> Mapping[str, str]:
+        """Return a string formatted dict of the call arguments."""
+
+    @property
+    def funcname(self) -> str:
+        """Return a string name for the function."""
+
+    @property
+    def func(self) -> Callable[..., Any]:
+        """Return the function object for this CallKey."""
 
 
 F = TypeVar("F", bound=Callable[..., Any])

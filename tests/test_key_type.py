@@ -63,24 +63,34 @@ def test_module_repr() -> None:
     key_type = make_key_type(f)
 
     assert (
-        repr(key_type.from_call(1, 2)) == "tests.test_key_type.f(a=1, b=2, c=3, d=None)"
+        repr(key_type.from_call(1, 2)) == "tests.test_key_type:f(a=1, b=2, c=3, d=None)"
     )
     assert (
         repr(key_type.from_call(1, 2, 5))
-        == "tests.test_key_type.f(a=1, b=2, c=5, d=None)"
+        == "tests.test_key_type:f(a=1, b=2, c=5, d=None)"
     )
     assert (
         repr(key_type.from_call(1, 2, c=4))
-        == "tests.test_key_type.f(a=1, b=2, c=4, d=None)"
+        == "tests.test_key_type:f(a=1, b=2, c=4, d=None)"
     )
     assert (
         repr(key_type.from_call(1, 2, d=10))
-        == "tests.test_key_type.f(a=1, b=2, c=3, d=10)"
+        == "tests.test_key_type:f(a=1, b=2, c=3, d=10)"
     )
     assert (
         repr(key_type.from_call(1, 2, c=4, d=10))
-        == "tests.test_key_type.f(a=1, b=2, c=4, d=10)"
+        == "tests.test_key_type:f(a=1, b=2, c=4, d=10)"
     )
+
+
+def test_funcname() -> None:
+    """Check we get the right qualified function name."""
+    key_type = make_key_type(f)
+    key = key_type.from_call(1, 2)
+
+    assert key.func is f
+    assert key.funcname == "tests.test_key_type:f"
+    assert key.kwargs == {"a": "1", "b": "2", "c": "3", "d": "None"}
 
 
 def test_args() -> None:

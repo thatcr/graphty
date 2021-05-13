@@ -1,15 +1,11 @@
 """Context manager and empty handler."""
 from types import TracebackType
-from typing import Any
 from typing import List
 from typing import Optional
 from typing import Type
 
 from .handler import Handler
 from .null import NullHandler
-from .typing import CallKey
-
-# should handler and context collapse to a single class.
 
 
 class Context(object):

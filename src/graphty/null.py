@@ -1,3 +1,4 @@
+"""Implementation of a no-op event handler."""
 from typing import Any
 
 from .handler import Handler

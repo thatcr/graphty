@@ -1,3 +1,4 @@
+"""Test that composite handlers pass through."""
 import logging
 from collections import defaultdict
 
@@ -8,8 +9,7 @@ from graphty.typing import Decorator
 
 
 def test_compose(decorator: Decorator, caplog) -> None:
-    """Compose a logger and a cache"""
-
+    """Compose a logger and a cache."""
     caplog.set_level(logging.INFO)
 
     @decorator
