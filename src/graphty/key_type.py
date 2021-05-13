@@ -10,14 +10,14 @@ from typing import Tuple
 from typing import Type
 
 from .context import get_handler
-from .typing import CallKey
+from .typing import Node
 
 
-def _from_call(cls: Any, *args: Any, **kwargs: Any) -> CallKey:
+def _from_call(cls: Any, *args: Any, **kwargs: Any) -> Node:
     """Build a call key by unpacking functionc all arguments."""
     bound = cls.__signature__.bind(*args, **kwargs)
     bound.apply_defaults()
-    return cast(CallKey, cls(*bound.arguments.values()))
+    return cast(Node, cls(*bound.arguments.values()))
 
 
 class CallKeyImpl(tuple):
@@ -31,12 +31,12 @@ class CallKeyImpl(tuple):
         return self.__repr_fmt__.format(*self[:-1])
 
     @property
-    def parents(self) -> FrozenSet[CallKey]:
+    def parents(self) -> FrozenSet[Node]:
         """Return the set of CallKeys that call this key."""
         return get_handler().parents[self]  # type: ignore
 
     @property
-    def children(self) -> FrozenSet[CallKey]:
+    def children(self) -> FrozenSet[Node]:
         """Return the set of CallKeys called by this key."""
         return get_handler().children[self]  # type: ignore
 
@@ -76,7 +76,7 @@ class CallKeyImpl(tuple):
         )
 
 
-def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
+def make_key_type(func: Callable[..., Any]) -> Type[Node]:
     """Construct a type representing a functions signature."""
     sig = inspect.signature(func)
 
@@ -95,7 +95,7 @@ def make_key_type(func: Callable[..., Any]) -> Type[CallKey]:
     key_type = type(
         func.__name__,
         (
-            CallKey,
+            Node,
             CallKeyImpl,
             namedtuple(
                 func.__name__,

@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from graphty import Context
-from graphty import key
+from graphty import node
 from graphty.typing import Decorator
 
 
@@ -22,7 +22,7 @@ def test_simple_func(
         f(1, 2)
         f(1, 2)
 
-    assert d[key(f, 1, 2)] == 3
+    assert d[node(f, 1, 2)] == 3
 
 
 def test_simple_failing_func(decorator: Decorator) -> None:
@@ -56,8 +56,8 @@ def test_simple_failing_func(decorator: Decorator) -> None:
             assert e is exception
             assert e.__traceback__.tb_frame.f_code.co_filename == __file__
 
-    assert type(d[key(f, 1, 2)]) is Exception
-    assert d[key(f, 1, 2)].args[0] is exception
+    assert type(d[node(f, 1, 2)]) is Exception
+    assert d[node(f, 1, 2)].args[0] is exception
 
 
 def test_mock_null_handler(decorator: Decorator) -> None:
@@ -73,8 +73,8 @@ def test_mock_null_handler(decorator: Decorator) -> None:
     with Context(handler):
         assert f(1, 2) == 3
 
-    handler.__getitem__.assert_called_once_with(key(f, 1, 2))
-    handler.__setitem__.assert_called_once_with(key(f, 1, 2), 3)
+    handler.__getitem__.assert_called_once_with(node(f, 1, 2))
+    handler.__setitem__.assert_called_once_with(node(f, 1, 2), 3)
 
 
 def test_mock_cached_handler(decorator: Decorator) -> None:
@@ -94,5 +94,5 @@ def test_mock_cached_handler(decorator: Decorator) -> None:
     with Context(handler):
         assert f(1, 2) is return_value
 
-    handler.__getitem__.assert_called_once_with(key(f, 1, 2))
+    handler.__getitem__.assert_called_once_with(node(f, 1, 2))
     handler.__setitem__.assert_not_called()

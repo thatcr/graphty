@@ -12,19 +12,19 @@ import pytest
 from graphty import Context
 from graphty import get_handler
 from graphty import Handler
-from graphty import key
-from graphty.typing import CallKey
+from graphty import node
 from graphty.typing import Decorator
+from graphty.typing import Node
 
 
 class GraphHandler(Handler):
     """Store the set of calls that each call makes."""
 
-    stack: List[CallKey]
-    parents: Dict[CallKey, Set[CallKey]]
-    children: Dict[CallKey, Set[CallKey]]
+    stack: List[Node]
+    parents: Dict[Node, Set[Node]]
+    children: Dict[Node, Set[Node]]
 
-    retvals: Dict[CallKey, Any]
+    retvals: Dict[Node, Any]
 
     def __init__(self) -> None:
         """Create a call stack, and start with an empty call."""
@@ -33,7 +33,7 @@ class GraphHandler(Handler):
         self.children = defaultdict(set)
         self.retvals = dict()
 
-    def __getitem__(self, key: CallKey) -> Any:
+    def __getitem__(self, key: Node) -> Any:
         """Register call with the parent, push onto stack."""
         if self.stack:
             self.children[self.stack[-1]].add(key)
@@ -45,12 +45,12 @@ class GraphHandler(Handler):
         self.stack.append(key)
         return Ellipsis
 
-    def __setitem__(self, key: CallKey, value: Any) -> None:
+    def __setitem__(self, key: Node, value: Any) -> None:
         """Pop call from stack."""
         self.retvals[key] = value
         self.stack.pop()
 
-    def bump(self, changes: Mapping[CallKey, Any]) -> "GraphHandler":
+    def bump(self, changes: Mapping[Node, Any]) -> "GraphHandler":
         """Create a new handler with some return values overridden."""
         handler = GraphHandler()
 
@@ -64,7 +64,7 @@ class GraphHandler(Handler):
             set, {k: v.copy() for k, v in self.parents.items()}
         )
 
-        deps: List[CallKey] = list(changes.keys())
+        deps: List[Node] = list(changes.keys())
         for dep in deps:
             # if dep is not None:
             deps.extend(handler.parents.pop(dep, set()))
@@ -100,29 +100,29 @@ def test_simple_graph(decorator: Decorator) -> None:
         g(a, b)
         g(a, b)
 
-        assert key(g, a, b) not in handler.parents
-        assert key(f, a, b) in handler.parents
+        assert node(g, a, b) not in handler.parents
+        assert node(f, a, b) in handler.parents
 
-        assert key(g, a, b).parents == set()
-        assert key(f, a, b).parents == {key(g, a, b)}
+        assert node(g, a, b).parents == set()
+        assert node(f, a, b).parents == {node(g, a, b)}
 
-        assert key(f, a, b) not in handler.children
-        assert key(g, a, b) in handler.children
+        assert node(f, a, b) not in handler.children
+        assert node(g, a, b) in handler.children
 
-        assert key(f, a, b).children == set()
-        assert key(g, a, b).children == {key(f, a, b)}
+        assert node(f, a, b).children == set()
+        assert node(g, a, b).children == {node(f, a, b)}
 
-        assert key(f, a, b) in handler.retvals
-        assert key(g, a, b) in handler.retvals
+        assert node(f, a, b) in handler.retvals
+        assert node(g, a, b) in handler.retvals
 
-        assert key(f, a, b).result == a + b
-        assert key(g, a, b).result == a + b
+        assert node(f, a, b).result == a + b
+        assert node(g, a, b).result == a + b
 
-        assert key(f, a, b).exception is None
-        assert key(g, a, b).exception is None
+        assert node(f, a, b).exception is None
+        assert node(g, a, b).exception is None
 
     # tweak the cache, check it is used
-    handler.retvals[key(g, a, b)] = 123
+    handler.retvals[node(g, a, b)] = 123
     with Context(handler):
         assert g(a, b) == 123
 
@@ -161,19 +161,19 @@ def test_simple_graph_exception(decorator: Decorator) -> None:
 
         # exceptions get cached twice - should this be the case, or do
         # we re-call an throw from source?
-        assert type(handler.retvals[key(f, a, b)]) is Exception
-        assert type(handler.retvals[key(g, a, b)]) is Exception
-        assert key(f, a, b).exception is exception
-        assert key(g, a, b).exception is exception
+        assert type(handler.retvals[node(f, a, b)]) is Exception
+        assert type(handler.retvals[node(g, a, b)]) is Exception
+        assert node(f, a, b).exception is exception
+        assert node(g, a, b).exception is exception
 
         with pytest.raises(RuntimeError):
-            key(f, a, b).result
+            node(f, a, b).result
 
         with pytest.raises(RuntimeError):
-            key(g, a, b).result
+            node(g, a, b).result
 
-        assert key(g, a, b).parents == set()
-        assert key(f, a, b).parents == {key(g, a, b)}
+        assert node(g, a, b).parents == set()
+        assert node(f, a, b).parents == {node(g, a, b)}
 
 
 def test_simple_graph_bump(print: Callable[..., Any], decorator: Decorator) -> None:
@@ -194,22 +194,22 @@ def test_simple_graph_bump(print: Callable[..., Any], decorator: Decorator) -> N
 
     print(handler.__dict__)
 
-    bumped = handler.bump({key(f, 1): 10})
+    bumped = handler.bump({node(f, 1): 10})
     with Context(bumped):
         print(bumped.__dict__)
 
         assert get_handler() is bumped
 
-        assert bumped.retvals == {key(f, 2): 2, key(f, 3): 3, key(f, 1): 10}
+        assert bumped.retvals == {node(f, 2): 2, node(f, 3): 3, node(f, 1): 10}
 
-        assert key(f, 2).parents == set()
-        assert key(f, 3).parents == set()
+        assert node(f, 2).parents == set()
+        assert node(f, 3).parents == set()
 
         # no nodes have any children left - we evicted them all
         assert not bumped.children
-        assert key(f, 2).result == 2
-        assert key(f, 3).result == 3
-        assert key(f, 1).result == 10
+        assert node(f, 2).result == 2
+        assert node(f, 3).result == 3
+        assert node(f, 1).result == 10
 
         assert g(1, 2) == 12
 

@@ -3,7 +3,7 @@ import logging
 from typing import Any
 
 from .handler import Handler
-from .typing import CallKey
+from .typing import Node
 
 
 class LoggingHandler(Handler):
@@ -16,7 +16,7 @@ class LoggingHandler(Handler):
         self.logger = logger
         self.indent = 0
 
-    def __getitem__(self, key: CallKey) -> Any:
+    def __getitem__(self, key: Node) -> Any:
         """We never cache any values on this handler."""
         self.logger.log(
             self.level,
@@ -25,7 +25,7 @@ class LoggingHandler(Handler):
         )
         return super().__getitem__(key)
 
-    def __setitem__(self, key: CallKey, value: Any) -> None:
+    def __setitem__(self, key: Node, value: Any) -> None:
         """Log the result of calling the function."""
         self.indent -= 1
         self.logger.log(

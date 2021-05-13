@@ -5,8 +5,8 @@ from typing import Dict
 
 from graphty import Context
 from graphty import Handler
-from graphty.typing import CallKey
 from graphty.typing import Decorator
+from graphty.typing import Node
 
 
 class TransformedHandler(Handler):
@@ -18,13 +18,13 @@ class TransformedHandler(Handler):
         """Initialize a set of transforms."""
         self.transforms = dict()
 
-    def __getitem__(self, key: CallKey) -> Any:
+    def __getitem__(self, key: Node) -> Any:
         """Invoke the transform function."""
         if key.func in self.transforms:
             return self.transforms[key.func__](*key[:-1])  # type: ignore
         return Ellipsis
 
-    def __setitem__(self, key: CallKey, value: Any) -> None:
+    def __setitem__(self, key: Node, value: Any) -> None:
         """Nothing to do."""
         pass
 

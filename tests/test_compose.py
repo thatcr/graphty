@@ -3,7 +3,7 @@ import logging
 from collections import defaultdict
 
 from graphty import Context
-from graphty import key
+from graphty import node
 from graphty.logging import LoggingHandler
 from graphty.typing import Decorator
 
@@ -27,6 +27,6 @@ def test_compose(decorator: Decorator, caplog) -> None:
     with Context(handler) as handler:
         assert fib(0) == 1
 
-    assert caplog.records[0].getMessage() == f"{key(fib, 0)!r} ..."
-    assert caplog.records[1].getMessage() == f"{key(fib, 0)!r} = 1"
-    assert cache[key(fib, 0)] == 1
+    assert caplog.records[0].getMessage() == f"{node(fib, 0)!r} ..."
+    assert caplog.records[1].getMessage() == f"{node(fib, 0)!r} = 1"
+    assert cache[node(fib, 0)] == 1

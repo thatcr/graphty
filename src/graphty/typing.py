@@ -10,21 +10,21 @@ from typing_extensions import runtime_checkable
 
 
 @runtime_checkable
-class CallKey(Protocol):
+class Node(Protocol):
     """A class representing the call signature of a function."""
 
     @classmethod
-    def from_call(cls, *args: Any, **kwargs: Any) -> "CallKey":
+    def from_call(cls, *args: Any, **kwargs: Any) -> "Node":
         """Generate a call signature from supplied arguments."""
         ...
 
     @property
-    def parents(self) -> "FrozenSet[CallKey]":
+    def parents(self) -> "FrozenSet[Node]":
         """Return the set of CallKeys that call this key."""
         ...
 
     @property
-    def children(self) -> "FrozenSet[CallKey]":
+    def children(self) -> "FrozenSet[Node]":
         """Return the set of CallKeys called by this key."""
         ...
 

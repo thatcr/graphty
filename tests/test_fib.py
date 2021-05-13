@@ -2,7 +2,7 @@
 from collections import defaultdict
 
 from graphty import Context
-from graphty import key
+from graphty import node
 from graphty.typing import Decorator
 
 
@@ -21,7 +21,7 @@ def test_fib(decorator: Decorator) -> None:
         assert fib(2) == 2
         assert fib(3) == 3
 
-        assert d[key(fib, 0)] == 1
-        assert d[key(fib, 1)] == 1
-        assert d[key(fib, 2)] == 2
-        assert d[key(fib, 3)] == 3
+        assert d[node(fib, 0)] == 1
+        assert d[node(fib, 1)] == 1
+        assert d[node(fib, 2)] == 2
+        assert d[node(fib, 3)] == 3

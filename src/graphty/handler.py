@@ -1,7 +1,7 @@
 """Base implementation for handling graphty events."""
 from typing import Any
 
-from .typing import CallKey
+from .typing import Node
 
 
 class Handler:
@@ -16,12 +16,12 @@ class Handler:
         """Configure the handler, with the given underlying handler to pass through."""
         self.next = next
 
-    def __setitem__(self, key: CallKey, value: Any) -> None:
+    def __setitem__(self, key: Node, value: Any) -> None:
         """When executed set the returned value for the call."""
         if self.next is not None:
             self.next[key] = value
 
-    def __getitem__(self, key: CallKey) -> Any:
+    def __getitem__(self, key: Node) -> Any:
         """Otherwise retrieve the value that should be returned."""
         if self.next is not None:
             return self.next[key]

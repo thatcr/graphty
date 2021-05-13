@@ -2,7 +2,7 @@
 from typing import Any
 
 from .handler import Handler
-from .typing import CallKey
+from .typing import Node
 
 
 class NullHandler(Handler):
@@ -14,10 +14,10 @@ class NullHandler(Handler):
         Ellipsis
     """
 
-    def __getitem__(self, key: CallKey) -> Any:
+    def __getitem__(self, key: Node) -> Any:
         """We never cache any values on this handler."""
         return Ellipsis
 
-    def __setitem__(self, key: CallKey, value: Any) -> None:
+    def __setitem__(self, key: Node, value: Any) -> None:
         """Never process any function results."""
         pass
