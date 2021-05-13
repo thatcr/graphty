@@ -10,7 +10,7 @@ from typing import Callable
 from typing import cast
 from typing import TypeVar
 
-from .key_type import make_key_type
+from .node import make_key_type
 
 F = TypeVar("F", bound=Callable[..., Any])
 

@@ -2,7 +2,7 @@
 from graphty.context import Context
 from graphty.context import get_handler
 from graphty.context import NullHandler
-from graphty.key_type import make_key_type
+from graphty.node import make_key_type
 
 
 def test_null_handler() -> None:
