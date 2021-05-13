@@ -2,14 +2,14 @@
 from graphty.context import Context
 from graphty.context import get_handler
 from graphty.context import NullHandler
-from graphty.node import make_key_type
+from graphty.node import make_node_type
 
 
 def test_null_handler() -> None:
     """Check null handlers does nothing."""
     null = NullHandler()
 
-    key = make_key_type(id).from_call(1)
+    key = make_node_type(id).from_call(1)
 
     assert null.__getitem__(key) is Ellipsis
     null.__setitem__(key, 2)

@@ -20,7 +20,7 @@ def _from_call(cls: Any, *args: Any, **kwargs: Any) -> Node:
     return cast(Node, cls(*bound.arguments.values()))
 
 
-class CallKeyImpl(tuple):
+class NodeImpl(tuple):
     """Default implementation of call key methods that redirect to the handler."""
 
     __func__: Callable[..., Any]
@@ -76,7 +76,7 @@ class CallKeyImpl(tuple):
         )
 
 
-def make_key_type(func: Callable[..., Any]) -> Type[Node]:
+def make_node_type(func: Callable[..., Any]) -> Type[Node]:
     """Construct a type representing a functions signature."""
     sig = inspect.signature(func)
 
@@ -96,7 +96,7 @@ def make_key_type(func: Callable[..., Any]) -> Type[Node]:
         func.__name__,
         (
             Node,
-            CallKeyImpl,
+            NodeImpl,
             namedtuple(
                 func.__name__,
                 tuple(sig.parameters.keys()) + ("func__",),
@@ -110,7 +110,7 @@ def make_key_type(func: Callable[..., Any]) -> Type[Node]:
             "__module__": func.__module__,
             "__signature__": sig,
             "from_call": classmethod(_from_call),
-            **CallKeyImpl.__dict__,
+            **NodeImpl.__dict__,
         },
     )
 

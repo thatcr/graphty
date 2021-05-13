@@ -4,7 +4,7 @@ from typing import Dict
 from typing import Optional
 from typing import Tuple
 
-from graphty.node import make_key_type
+from graphty.node import make_node_type
 
 
 def test_equality() -> None:
@@ -16,8 +16,8 @@ def test_equality() -> None:
     def g(a: int, b: int) -> int:
         ...
 
-    f_type = make_key_type(f)
-    g_type = make_key_type(g)
+    f_type = make_node_type(f)
+    g_type = make_node_type(g)
 
     assert f_type.__func__ is f  # type: ignore
     assert g_type.__func__ is g  # type: ignore
@@ -44,7 +44,7 @@ def test_local_repr() -> None:
     def f(a: int, b: int, c: int = 3, d: Optional[None] = None) -> int:
         ...
 
-    key_type = make_key_type(f)
+    key_type = make_node_type(f)
 
     assert repr(key_type.from_call(1, 2)) == "f(a=1, b=2, c=3, d=None)"
     assert repr(key_type.from_call(1, 2, 5)) == "f(a=1, b=2, c=5, d=None)"
@@ -60,7 +60,7 @@ def f(a: int, b: int, c: int = 3, d: Optional[None] = None) -> int:
 
 def test_module_repr() -> None:
     """Check we get a nice printable signature."""
-    key_type = make_key_type(f)
+    key_type = make_node_type(f)
 
     assert (
         repr(key_type.from_call(1, 2)) == "tests.test_key_type:f(a=1, b=2, c=3, d=None)"
@@ -85,7 +85,7 @@ def test_module_repr() -> None:
 
 def test_funcname() -> None:
     """Check we get the right qualified function name."""
-    key_type = make_key_type(f)
+    key_type = make_node_type(f)
     key = key_type.from_call(1, 2)
 
     assert key.func is f
@@ -99,7 +99,7 @@ def test_args() -> None:
     def f(*args: Tuple[Any]) -> int:
         ...
 
-    key_type = make_key_type(f)
+    key_type = make_node_type(f)
 
     assert repr(key_type.from_call(1, 2)) == "f(args=(1, 2))"
 
@@ -110,6 +110,6 @@ def test_kwargs() -> None:
     def f(**kwargs: Dict[str, Any]) -> int:
         ...
 
-    key_type = make_key_type(f)
+    key_type = make_node_type(f)
 
     assert repr(key_type.from_call(a=1, b=2)) == "f(kwargs={'a': 1, 'b': 2})"

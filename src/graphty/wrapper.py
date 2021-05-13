@@ -10,7 +10,7 @@ from typing import Callable
 from typing import cast
 from typing import TypeVar
 
-from .node import make_key_type
+from .node import make_node_type
 
 F = TypeVar("F", bound=Callable[..., Any])
 
@@ -24,7 +24,7 @@ def shift(func: F) -> F:
     Returns:
         the modified function
     """
-    key_type = make_key_type(func)
+    key_type = make_node_type(func)
 
     # import the global context handler stack here, which we bind into the wrapper
     from .context import Context
