@@ -9,9 +9,8 @@ from .handler import Handler
 from .typing import CallKey
 
 from .null import NullHandler
-from .compose import CompositeHandler
 
-# should a handler be thread-local, or shoudl the context me
+# should handler and context collapse to a single class.
 
 
 class Context(object):
@@ -22,12 +21,9 @@ class Context(object):
     # TODO make this thread/coroutine safe
     _handlers: List[Handler] = [NullHandler()]
 
-    def __init__(self, handler, *handlers: Handler):
+    def __init__(self, handler):
         """Initialize context with a handler instance."""
-        if handlers:
-            self.handler = CompositeHandler((handler,) + handlers)
-        else:
-            self.handler = handler
+        self.handler = handler
 
     def __enter__(self) -> Handler:
         """Push the handler onto the global stack."""
