@@ -33,17 +33,17 @@ class NodeImpl(tuple, Node):
     @property
     def parents(self) -> FrozenSet[Node]:
         """Return the set of CallKeys that call this key."""
-        return get_handler().parents[self]  # type: ignore
+        return get_handler().parents(self)
 
     @property
     def children(self) -> FrozenSet[Node]:
         """Return the set of CallKeys called by this key."""
-        return get_handler().children[self]  # type: ignore
+        return get_handler().children(self)
 
     @property
     def result(self) -> Any:
         """Return the result of the call, or raise any exception raised."""
-        retval = get_handler().retvals[self]  # type: ignore
+        retval = get_handler().retval(self)
         if isinstance(retval, Exception):
             raise retval.args[0]
         return retval
@@ -51,7 +51,7 @@ class NodeImpl(tuple, Node):
     @property
     def exception(self) -> Optional[Exception]:
         """Return any exception raised by the call, or None if there is none."""
-        retval = get_handler().retvals[self]  # type: ignore
+        retval = get_handler().retval(self)
         if isinstance(retval, Exception):
             return retval.args[0]
         return None

@@ -1,5 +1,6 @@
 """Base implementation for handling graphty events."""
 from typing import Any
+from typing import FrozenSet
 
 from .typing import Node
 
@@ -26,3 +27,15 @@ class Handler:
         if self.next is not None:
             return self.next[key]
         return Ellipsis
+
+    def parents(self, key: Node) -> FrozenSet[Node]:
+        """Return the set of nodes that call this node."""
+        raise NotImplementedError
+
+    def children(self, key: Node) -> FrozenSet[Node]:
+        """Return the set of nodes called by this node."""
+        raise NotImplementedError
+
+    def retval(self, key: Node) -> Any:
+        """Return the value of returned by the call or wrapped exception if raised."""
+        raise NotImplementedError
