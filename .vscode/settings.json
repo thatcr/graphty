@@ -4,5 +4,14 @@
   "python.linting.flake8Enabled": true,
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
-  "python.pythonPath": "/home/vscode/.cache/pypoetry/virtualenvs/graphty-nkKTgCMO-py3.9/bin/python"
+  "python.pythonPath": "/home/vscode/.cache/pypoetry/virtualenvs/graphty-nkKTgCMO-py3.9/bin/python",
+  "files.watcherExclude": {
+    "**/.git/objects": true,
+    "**/.git/subtree-cache": true,
+    "**/.nox/**": true,
+    "**/build/**": true,
+    "**/dist/**": true,
+    "**/.mypy_cache/**": true
+  },
+  "python.testing.pytestArgs": ["-n", "auto"]
 }
