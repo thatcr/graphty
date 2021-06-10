@@ -19,8 +19,8 @@ def pytest_generate_tests(metafunc: Metafunc) -> None:
         )
 
 
-@pytest.fixture(autouse=True, scope="session")
-def print() -> Any:
+@pytest.fixture(name="print", autouse=True, scope="session")
+def _print() -> Any:
     """Create a full-color rich terminal for logging."""
     console = Console(
         force_terminal=True,
