@@ -117,7 +117,24 @@ def make_node_type(func: Callable[..., Any]) -> Type[Node]:
 
 
 def node(func: Callable[..., Any], *args: Any, **kwargs: Any) -> Node:
-    """Construct a key to a function call with the given arguments."""
+    """Construct a key to a function call with the given arguments.
+
+    Parameters:
+        func (Callable): Function to construct a node from
+        args (Tuple): Positionl arguments for the call
+        kwargs (Dict): Keyword arguments for the call
+
+    Returns:
+        Node: node representing the function call bound to the supplied arguments
+
+    Example:
+        >>> from .wrapper import shift
+        >>> n = node(shift(id), 1)
+        >>> n.func
+        <built-in function id>
+        >>> n.obj
+        1
+    """
     # since we are preserving fundamental python types as far as possible
     # we disable type checking here, __key__ is an implementation detail.
     return func.__key__.from_call(*args, **kwargs)  # type: ignore
