@@ -1,8 +1,8 @@
 """Test simple handler and context combinations."""
 from graphty.context import Context
 from graphty.context import get_handler
-from graphty.context import NullHandler
 from graphty.node import make_node_type
+from graphty.null import NullHandler
 
 
 def test_null_handler() -> None:

@@ -1,7 +1,9 @@
 """Test some simple combinations of functions and handlers."""
 from collections import defaultdict
+from typing import cast
 
 from graphty import Context
+from graphty import Handler
 from graphty import node
 from graphty.typing import Decorator
 
@@ -15,7 +17,7 @@ def test_fib(decorator: Decorator) -> None:
             return 1
         return fib(x - 1) + fib(x - 2)
 
-    with Context(defaultdict(lambda: Ellipsis)) as d:
+    with Context(cast(Handler, defaultdict(lambda: Ellipsis))) as d:
         assert fib(0) == 1
         assert fib(1) == 1
         assert fib(2) == 2

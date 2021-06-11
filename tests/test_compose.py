@@ -1,14 +1,18 @@
 """Test that composite handlers pass through."""
 import logging
 from collections import defaultdict
+from typing import cast
+
+from _pytest.logging import LogCaptureFixture
 
 from graphty import Context
+from graphty import Handler
 from graphty import node
 from graphty.logging import LoggingHandler
 from graphty.typing import Decorator
 
 
-def test_compose(decorator: Decorator, caplog) -> None:
+def test_compose(decorator: Decorator, caplog: LogCaptureFixture) -> None:
     """Compose a logger and a cache."""
     caplog.set_level(logging.INFO)
 
@@ -19,8 +23,8 @@ def test_compose(decorator: Decorator, caplog) -> None:
         return fib(x - 1) + fib(x - 2)
 
     caplog.clear()
-    cache = defaultdict(lambda: Ellipsis)
-    handler = LoggingHandler(
+    cache = cast(Handler, defaultdict(lambda: Ellipsis))
+    handler: Handler = LoggingHandler(
         level=logging.INFO, logger=logging.getLogger(""), next=cache
     )
 

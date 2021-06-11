@@ -3,13 +3,17 @@ import logging
 from typing import Any
 from typing import Callable
 
+from _pytest.logging import LogCaptureFixture
+
 from graphty import Context
 from graphty import node
 from graphty.logging import LoggingHandler
 from graphty.typing import Decorator
 
 
-def test_logging(print: Callable[..., Any], decorator: Decorator, caplog) -> None:
+def test_logging(
+    print: Callable[..., Any], decorator: Decorator, caplog: LogCaptureFixture
+) -> None:
     """Check that caching fibonacci works."""
     caplog.set_level(logging.INFO)
 
@@ -33,5 +37,5 @@ def test_logging(print: Callable[..., Any], decorator: Decorator, caplog) -> Non
     assert caplog.records[1].getMessage() == f"{node(fib, 0)!r} = 1"
 
     for record in caplog.records:
-        assert record.funcname == "fib"
-        assert record.kwargs["x"] == "0"
+        assert record.funcname == "fib"  # type: ignore[attr-defined]
+        assert record.kwargs["x"] == "0"  # type: ignore[attr-defined]

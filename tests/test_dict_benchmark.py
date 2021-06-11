@@ -12,7 +12,7 @@ pytestmark = pytest.mark.benchmark(group=__name__)
 
 def test_defaultdict(benchmark):  # type: ignore
     """Benchmark performance of initializing a defaultdict."""
-    d = defaultdict(set)
+    d: MutableMapping[int, MutableSet[int]] = defaultdict(set)
 
     def insert(d: Mapping[int, MutableSet[int]], key: int, value: int) -> None:
         d[key].add(value)
@@ -22,7 +22,7 @@ def test_defaultdict(benchmark):  # type: ignore
 
 def test_dict(benchmark):  # type: ignore
     """Benchmark performance of regular dict, testing for the key first."""
-    d = dict()
+    d: MutableMapping[int, MutableSet[int]] = dict()
 
     def insert(d: MutableMapping[int, MutableSet[int]], key: int, value: int) -> None:
         if key not in d:
@@ -34,7 +34,7 @@ def test_dict(benchmark):  # type: ignore
 
 def test_setdefault(benchmark):  # type: ignore
     """Benchmark using setdefault to fill missing values."""
-    d = dict()
+    d: MutableMapping[int, int] = dict()
 
     def insert(d: MutableMapping[int, MutableSet[int]], key: int, value: int) -> None:
         d.setdefault(key, set()).add(value)

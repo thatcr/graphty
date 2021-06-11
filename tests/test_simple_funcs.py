@@ -1,10 +1,12 @@
 """Test some simple combinations of functions and handlers."""
 from collections import defaultdict
+from typing import cast
 from unittest.mock import MagicMock
 
 import pytest
 
 from graphty import Context
+from graphty import Handler
 from graphty import node
 from graphty.typing import Decorator
 
@@ -18,7 +20,7 @@ def test_simple_func(
     def f(a: int, b: int) -> int:
         return a + b
 
-    with Context(defaultdict(lambda: Ellipsis)) as d:
+    with Context(cast(Handler, defaultdict(lambda: Ellipsis))) as d:
         f(1, 2)
         f(1, 2)
 
@@ -40,13 +42,14 @@ def test_simple_failing_func(decorator: Decorator) -> None:
 
         raise exception
 
-    with Context(defaultdict(lambda: Ellipsis)) as d:
+    with Context(cast(Handler, defaultdict(lambda: Ellipsis))) as d:
         # check we get the exception as thrown from the function above
         try:
             f(1, 2)
         except RuntimeError as e:
             assert e is exception
-            assert e.__traceback__.tb_frame.f_code.co_filename == __file__
+            if e.__traceback__ is not None:
+                assert e.__traceback__.tb_frame.f_code.co_filename == __file__
 
         # check it again, to check that the cached exception gets
         # the right traceback
@@ -54,7 +57,8 @@ def test_simple_failing_func(decorator: Decorator) -> None:
             f(1, 2)
         except RuntimeError as e:
             assert e is exception
-            assert e.__traceback__.tb_frame.f_code.co_filename == __file__
+            if e.__traceback__ is not None:
+                assert e.__traceback__.tb_frame.f_code.co_filename == __file__
 
     assert type(d[node(f, 1, 2)]) is Exception
     assert d[node(f, 1, 2)].args[0] is exception

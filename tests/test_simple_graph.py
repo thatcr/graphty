@@ -3,7 +3,6 @@ from collections import defaultdict
 from typing import Any
 from typing import Callable
 from typing import Dict
-from typing import FrozenSet
 from typing import List
 from typing import Mapping
 from typing import Set
@@ -81,11 +80,11 @@ class GraphHandler(Handler):
 
         return handler
 
-    def parents(self, key: Node) -> FrozenSet[Node]:
+    def parents(self, key: Node) -> Set[Node]:
         """Return parents of a given node."""
         return self._parents[key]
 
-    def children(self, key: Node) -> FrozenSet[Node]:
+    def children(self, key: Node) -> Set[Node]:
         """Return children of a given node."""
         return self._children[key]
 
