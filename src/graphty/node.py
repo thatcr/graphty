@@ -4,8 +4,9 @@ from collections import namedtuple
 from typing import Any
 from typing import Callable
 from typing import cast
-from typing import FrozenSet
+from typing import Mapping
 from typing import Optional
+from typing import Set
 from typing import Tuple
 from typing import Type
 
@@ -13,9 +14,10 @@ from .context import get_handler
 from .typing import Node as Node
 
 
-class NodeImpl(tuple, Node):
+class NodeImpl(tuple[Any], Node):
     """Default implementation of call key methods that redirect to the handler."""
 
+    __repr_fmt__: str
     __func__: Callable[..., Any]
     _fields: Tuple[str]
 
@@ -28,15 +30,15 @@ class NodeImpl(tuple, Node):
 
     def __repr__(self: Any) -> str:
         """Make a human readable string from the key."""
-        return self.__repr_fmt__.format(*self[:-1])
+        return cast(str, self.__repr_fmt__).format(*self[:-1])
 
     @property
-    def parents(self) -> FrozenSet[Node]:
+    def parents(self) -> Set[Node]:
         """Return the set of CallKeys that call this key."""
         return get_handler().parents(self)
 
     @property
-    def children(self) -> FrozenSet[Node]:
+    def children(self) -> Set[Node]:
         """Return the set of CallKeys called by this key."""
         return get_handler().children(self)
 
@@ -53,11 +55,11 @@ class NodeImpl(tuple, Node):
         """Return any exception raised by the call, or None if there is none."""
         retval = get_handler().retval(self)
         if isinstance(retval, Exception):
-            return retval.args[0]
+            return cast(Exception, retval.args[0])
         return None
 
     @property
-    def kwargs(self):
+    def kwargs(self) -> Mapping[str, str]:
         """Return a dictionary of parameter names to their values as strings."""
         return {self._fields[i]: repr(self[i]) for i in range(0, len(self) - 1)}
 
@@ -67,7 +69,7 @@ class NodeImpl(tuple, Node):
         return self.__class__.__func__
 
     @property
-    def funcname(self):
+    def funcname(self) -> str:
         """Return a string for the fully qualified function name."""
         return (
             self.__func__.__name__

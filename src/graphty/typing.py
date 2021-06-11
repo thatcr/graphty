@@ -1,8 +1,9 @@
 """Base classes for core abstractions, typing."""
 from typing import Any
 from typing import Callable
-from typing import FrozenSet
 from typing import Mapping
+from typing import Optional
+from typing import Set
 from typing import TypeVar
 
 from typing_extensions import Protocol
@@ -19,12 +20,12 @@ class Node(Protocol):
         ...
 
     @property
-    def parents(self) -> "FrozenSet[Node]":
+    def parents(self) -> "Set[Node]":
         """Return the set of CallKeys that call this key."""
         ...
 
     @property
-    def children(self) -> "FrozenSet[Node]":
+    def children(self) -> "Set[Node]":
         """Return the set of CallKeys called by this key."""
         ...
 
@@ -34,7 +35,7 @@ class Node(Protocol):
         ...
 
     @property
-    def exception(self) -> Exception:
+    def exception(self) -> Optional[Exception]:
         """Return any exception raised by the call, or None if there is none."""
 
     @property

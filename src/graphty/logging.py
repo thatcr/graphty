@@ -1,6 +1,7 @@
 """Send call and return events to a python logging."""
 import logging
 from typing import Any
+from typing import Optional
 
 from .handler import Handler
 from .node import Node
@@ -9,7 +10,12 @@ from .node import Node
 class LoggingHandler(Handler):
     """Output call an return events to a logger."""
 
-    def __init__(self, logger, level=logging.DEBUG, next=None):
+    def __init__(
+        self,
+        logger: logging.Logger,
+        level: int = logging.DEBUG,
+        next: Optional[Handler] = None,
+    ) -> None:
         """Initialize the handler with a given logger and level."""
         super().__init__(next=next)
         self.level = level

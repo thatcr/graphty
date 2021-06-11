@@ -16,7 +16,7 @@ class Context(object):
     # TODO make this thread/coroutine safe
     _handlers: List[Handler] = [NullHandler()]
 
-    def __init__(self, handler):
+    def __init__(self, handler: Handler) -> None:
         """Initialize context with a handler instance."""
         self.handler = handler
 

@@ -1,6 +1,7 @@
 """Base implementation for handling graphty events."""
 from typing import Any
-from typing import FrozenSet
+from typing import Optional
+from typing import Set
 
 from .typing import Node
 
@@ -13,7 +14,7 @@ class Handler:
     calls and the results.
     """
 
-    def __init__(self, next=None):
+    def __init__(self, next: "Optional[Handler]" = None) -> None:
         """Configure the handler, with the given underlying handler to pass through."""
         self.next = next
 
@@ -28,11 +29,11 @@ class Handler:
             return self.next[key]
         return Ellipsis
 
-    def parents(self, key: Node) -> FrozenSet[Node]:
+    def parents(self, key: Node) -> Set[Node]:
         """Return the set of nodes that call this node."""
         raise NotImplementedError
 
-    def children(self, key: Node) -> FrozenSet[Node]:
+    def children(self, key: Node) -> Set[Node]:
         """Return the set of nodes called by this node."""
         raise NotImplementedError
 
