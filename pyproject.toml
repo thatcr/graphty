@@ -54,7 +54,7 @@ pytest-watch = "^4.2.0"
 pytest-sugar = "^0.9.4"
 pytest-cov = "^2.11.1"
 env_config = "^1.10.0"
-rich = "^9.10.0"
+rich = "^10.11.0"
 pytest-benchmark = "^3.2.3"
 
 [tool.poetry.scripts]
