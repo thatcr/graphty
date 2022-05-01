@@ -788,14 +788,14 @@ jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
 name = "rope"
-version = "0.18.0"
+version = "1.0.0"
 description = "a python refactoring library..."
 category = "dev"
 optional = false
-python-versions = "*"
+python-versions = ">=3"
 
 [package.extras]
-dev = ["pytest"]
+dev = ["build", "pytest", "pytest-timeout"]
 
 [[package]]
 name = "ruamel.yaml"
@@ -1146,7 +1146,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.1"
-content-hash = "0863e5427dc7d0433275564d151de5ab4628507dd7ff1a0a3e361a276c09e71a"
+content-hash = "32a1cfa2361e3bba29d734384315faed10ad507b109477bf775235354bdcd4bf"
 
 [metadata.files]
 alabaster = [
@@ -1610,7 +1610,8 @@ rich = [
     {file = "rich-9.13.0.tar.gz", hash = "sha256:d59e94a0e3e686f0d268fe5c7060baa1bd6744abca71b45351f5850a3aaa6764"},
 ]
 rope = [
-    {file = "rope-0.18.0.tar.gz", hash = "sha256:786b5c38c530d4846aa68a42604f61b4e69a493390e3ca11b88df0fbfdc3ed04"},
+    {file = "rope-1.0.0-py3-none-any.whl", hash = "sha256:67749b582d57954f288b0441fae93e8f4c166d7e93fc29c430bd4db28ec904d0"},
+    {file = "rope-1.0.0.tar.gz", hash = "sha256:16f652d3002296778d463db329da6a05d914a4dbde30ea6da76362da06c0ebb7"},
 ]
 "ruamel.yaml" = [
     {file = "ruamel.yaml-0.17.4-py3-none-any.whl", hash = "sha256:ac79fb25f5476e8e9ed1c53b8a2286d2c3f5dde49eb37dbcee5c7eb6a8415a22"},
